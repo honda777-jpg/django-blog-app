@@ -1,0 +1,26 @@
+{% extends 'base.html' %} <!-- base.htmlの内容を使用できる -->
+
+{% block header %}
+
+<div class="p-3 mt-3 mb-3">
+    {% if 'new' in request.path %} <!-- request.pathで開いているURL取得 -->
+    <h1>タスクの追加</h1>
+    {% elif 'edit' in request.path %}
+    <h1>タスクの編集</h1>
+    {% endif %}
+</div>
+
+{% endblock header %}
+
+{% block content %} <!-- base.htmlのblock content内に内容が反映される -->
+
+<form action="" method="POST">{% csrf_token %} <!-- CSRFのセキュリティ対策 -->
+    <table class="table">
+        {{form.as_table}} <!-- この書き方で、views.pyのfieldsの値を取得 -->
+    </table>
+    <div class="d-grid gap-2 col-6 mx-left">
+        <input class="btn btn-success" type="submit" value="送信">
+    </div>
+</form>
+
+{% endblock content %}

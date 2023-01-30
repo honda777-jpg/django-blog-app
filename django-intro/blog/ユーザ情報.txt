@@ -1,0 +1,3 @@
+ユーザID: alex
+pass: alex1192
+mailaddress: amazon1192777@gmail.com

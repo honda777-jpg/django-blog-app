@@ -1,0 +1,43 @@
+{% extends 'base.html' %} <!-- base.htmlの内容を使用できる -->
+
+{% block header %}
+<div class="p-3 mb-5"> <!-- p-3 mb-5でブロックの周りに空白を入れる。-->
+    <h1>TodoApp</h1>
+    <p>タスクを作成しましょう!</p>
+</div>
+{% endblock header %}
+
+{% block content %} <!-- base.htmlのblock content内に内容が反映される -->
+<div class="shadow-sm p-3 mb-5 bg-body rounded"> <!-- ボックスの影を作成 -->
+    {% if user.is_authenticated %}
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end"> <!-- ボタンを右端に寄せる -->
+        <a href="{% url 'task-new' %}" class="btn btn-outline-success me-3">新規作成</a> <!-- me-3で少し右に空白を作る -->
+    </div>
+    {% endif %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">タイトル</th>
+                <th scope="col">締切</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in task_list %} <!-- タスクの一覧が入っているのはデフォルトでobject_list。今回はmodelのtaskから取得してるので、task_list -->
+            <tr>
+                <td>
+                    <a href="{% url 'task-detail' task.pk %}">{{ task.title }}</a> <!-- urls.pyのname=task-detailURLに飛ぶ。task.pkでtask/1のようになる -->
+                </td> <!-- これで1つ目のタスクだったらtask/1/へのURLに変化します -->
+                <td>{{ task.deadline }}</td>
+                {% if user.is_authenticated %}
+                <td>
+                    <a href="{% url 'task-edit' task.pk %}">編集</a>
+                    <a href="{% url 'task-delete' task.pk %}">削除</a>
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %} <!-- HTMLでfor文を書くときはendforを使用する -->
+        </tbody>
+    </table>
+</div>
+{% endblock content %}
